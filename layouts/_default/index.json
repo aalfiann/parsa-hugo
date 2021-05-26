@@ -1,0 +1,12 @@
+{{- $.Scratch.Add "index" slice -}}
+    {{- range .Site.RegularPages -}}
+        {{- if not (in .Permalink "about/") -}}
+            {{- if not (eq .Title "") -}}
+                {{- $m := trim .Plain " " -}}
+                {{ $mm := substr $m 0 117 }}
+                {{- $mmm := print $mm "..." -}}
+                {{- $.Scratch.Add "index" (dict "title" .Title "tags" .Params.tags "categories" .Params.categories "contents" $mmm "permalink" .Permalink "image" .Params.Image) -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- $.Scratch.Get "index" | jsonify -}}

@@ -1,0 +1,80 @@
+<head>
+  <meta charset="utf-8">
+
+  {{ "<!-- SEO & OPENGRAPH -->" | safeHTML }}
+  {{ if .Params.Tags }}
+		<!-- single page -->
+		<title>{{ .Title }} | {{ .Site.Title }}</title>
+    <meta name="description" content="{{ .Description }} | {{ .Site.Title }}">
+    <meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}" />
+    <meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}" />
+	{{ else }}
+		<!-- list page -->
+		{{ if .Title }}
+			{{ if .Paginator }}
+				{{ if .IsHome }}
+					<!-- home page -->
+					<title>{{ .Title }} | {{ site.Params.Tagline }} {{ if gt .Paginator.PageNumber "1" }}Page {{ .Paginator.PageNumber }}{{ end }}</title>
+          <meta name="description" content="{{ .Title }} | {{ site.Params.Tagline }} {{ if gt .Paginator.PageNumber "1" }}Page {{ .Paginator.PageNumber }}{{ end }}">
+          <meta property="og:title" content="{{ .Title }} | {{ site.Params.Tagline }} {{ if gt .Paginator.PageNumber "1" }}Page {{ .Paginator.PageNumber }}{{ end }}" />
+          <meta name="twitter:title" content="{{ .Title }} | {{ site.Params.Tagline }} {{ if gt .Paginator.PageNumber "1" }}Page {{ .Paginator.PageNumber }}{{ end }}" />
+        {{ else }}
+					<!-- regular pages -->
+					<title>{{ .Title }} {{ if gt .Paginator.PageNumber "1" }}Page {{ .Paginator.PageNumber }}{{ end }} | {{ .Site.Title }}</title>
+          <meta name="description" content="{{ .Title }} {{ if gt .Paginator.PageNumber "1" }}Page {{ .Paginator.PageNumber }}{{ end }} | {{ .Site.Title }}">
+          <meta property="og:title" content="{{ .Title }} {{ if gt .Paginator.PageNumber "1" }}Page {{ .Paginator.PageNumber }}{{ end }} | {{ .Site.Title }}" />
+          <meta name="twitter:title" content="{{ .Title }} {{ if gt .Paginator.PageNumber "1" }}Page {{ .Paginator.PageNumber }}{{ end }} | {{ .Site.Title }}" />
+				{{ end }}
+			{{ else }}
+				<!-- static page -->
+				<title>{{ .Title }} | {{ .Site.Title }}</title>
+        <meta name="description" content="{{ .Description }} | {{ .Site.Title }}">
+        <meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}" />
+        <meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}" />
+			{{ end }}
+		{{ else }}
+			<!-- unknown page -->
+			<title>{{ .Site.Title }}</title>
+      <meta name="description" content="{{ .Description }} | {{ .Site.Title }}">
+      <meta property="og:title" content="{{ .Site.Title }}" />
+      <meta name="twitter:title" content="{{ .Site.Title }}" />
+		{{ end }}
+	{{ end }}
+  <meta property="og:image" content="{{ with .Params.image }}{{ . }}{{ else }}/images/cover.jpg{{ end }}" />
+  <meta name="twitter:image" content="{{ with .Params.image }}{{ . }}{{ else }}/images/cover.jpg{{ end }}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@{{ .Site.Params.twitterShortname }}" />
+  <meta name="twitter:creator" content="@{{ .Site.Params.twitterShortname }}" />
+  <meta property="og:url" content="{{ .Permalink | absURL }}" />
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="{{ with .Params.author }}{{ . }}{{ else }}{{ with .Site.Params.author }}{{ . }}{{ end }}{{ end }}">
+  <meta name="author" content="{{ with .Params.author }}{{ . }}{{ else }}{{ with .Site.Params.author }}{{ . }}{{ end }}{{ end }}">
+
+  {{ "<!-- mobile responsive meta -->" | safeHTML }}
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  {{ "<!-- plugins -->" | safeHTML }}
+  {{ range site.Params.plugins.css }}
+  <link rel="stylesheet" href="{{ .link | absURL }} ">
+  {{ end }}
+
+  {{ "<!-- Main Stylesheet -->" | safeHTML }}
+  {{ $styles := resources.Get "css/style.css" | minify }}
+  <link rel="stylesheet" href="{{ $styles.Permalink }}" media="screen">
+
+  {{ "<!--Favicon-->" | safeHTML }}
+  <link rel="shortcut icon" href="{{ `/favicon.ico` | absURL }} " type="image/x-icon">
+  <link rel="icon" href="{{ `/favicon.ico` | absURL }} " type="image/x-icon">
+
+  <style>
+    .lazyload {
+      opacity: 0;
+    }
+    .lazyloading {
+      opacity: 1;
+      transition: opacity 300ms;
+      background: #2f2f2f url(/images/loader.gif) no-repeat center;
+    }
+  </style>
+
+</head>
