@@ -1,9 +1,10 @@
 # Parsa Hugo Fork Version
 > This is a fork version from original project [Parsa Hugo](https://github.com/themefisher/parsa-hugo).
 
-Note:  
+Differences:  
 - Better SEO
 - Better Search
+- Social Sharing
 - Using GTag
 - Using LazyLoad
 - Protected from Web Proxy
