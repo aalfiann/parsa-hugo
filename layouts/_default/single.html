@@ -20,10 +20,16 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8">
-        <ul class="list-inline d-flex justify-content-between py-3">
+        <hr>
+        <ul class="list-inline d-flex justify-content-between pt-2">
           <li class="list-inline-item"><i class="ti-user mr-2"></i>Post by {{ with .Params.author }}{{ . }}{{ else }}{{ with .Site.Params.author }}{{ . }}{{ end }}{{ end }}</li>
           <li class="list-inline-item"><i class="ti-calendar mr-2"></i>{{ .PublishDate.Format "Jan 02, 2006" }}</li>
         </ul>
+        <ul class="list-inline d-flex justify-content-between pt-2 pb-2">
+          <li class="list-inline-item"><i class="ti-folder mr-2"></i>{{ range .Params.Categories }}<a href="{{ "categories/" | relLangURL }}{{ . | urlize | lower }}/" class="badge badge-dark" title="See all posts in {{ . | title }} category.">{{ . | title }}</a>{{ end }}</li>
+          <li class="list-inline-item"><i class="ti-tag mr-2"></i>{{ range .Params.Tags }}<a href="{{ "tags/" | relLangURL }}{{- . | urlize | lower -}}/" class="badge badge-secondary" title="See all posts labeled with {{ . | title }} tag.">#{{ . | title }}</a> {{ end }}</li>
+        </ul>
+        <hr>
         <article class="content">
           <img data-src="{{.Params.Image | absURL }}" alt="{{.Title}}" class="img-fluid rounded float-left mr-5 mb-4 lazyload">
           {{.Content}}
