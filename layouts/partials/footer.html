@@ -44,6 +44,42 @@
 {{ $script := resources.Get "js/script.js" | minify}}
 <script src="{{ $script.Permalink }}"></script>
 
+{{ if .Site.Params.contact_form_action }}
+<!-- Contact Form -->
+<script>
+  function writeAlert(type,msgHtml) {
+    return '<div class="alert alert-'+type+' alert-dismissible fade show" role="alert">\
+          '+msgHtml+'\
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+            <span aria-hidden="true">&times;</span>\
+          </button>\
+        </div>';
+  }
+
+  var form = document.getElementById("contact-form");
+  if(form) {
+    async function handleSubmit(event) {
+      event.preventDefault();
+      var status = document.getElementById("contact-form-status");
+      var data = new FormData(event.target);
+      fetch(event.target.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+      }).then(response => {
+        status.innerHTML = writeAlert('success','Thanks for your submission!');
+        form.reset()
+      }).catch(error => {
+        status.innerHTML = writeAlert('danger','Oops! Something went wrong, please try again later.');
+      });
+    }
+    form.addEventListener("submit", handleSubmit);
+}
+</script>
+{{ end }}
+
 <!-- cookie -->
 {{ if site.Params.cookies.enable }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>

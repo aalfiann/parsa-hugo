@@ -5,6 +5,7 @@ Differences:
 - Better SEO
 - Better Search
 - Social Sharing
+- Ajax Contact Form
 - Using GTag
 - Using LazyLoad
 - Protected from Web Proxy

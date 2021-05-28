@@ -104,8 +104,8 @@ author = "John Doe"
 author_image = "images/banner-img.png"
 bio = "I’m a Freelance Interactive Art Director based in France. Focusing across branding and identity, digital and print."
 twitterShortname = ""
-# contact form works with formspree.io
-contact_form_action = "#"
+# contact form works with link from formspree.io
+contact_form_action = ""
 # copyright
 copyrightYear = "2014"
 copyright = "Pharsa. All rights reserved."

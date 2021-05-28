@@ -7,7 +7,7 @@
         <h2 class="mb-4">{{.Title }}</h2>
         <img data-src="{{.Params.Image | absURL }}" alt="{{site.Params.author}}" class="img-fluid w-100 mb-4 lazyload">
         {{ .Content }}
-        <form action="{{ site.Params.contact_form_action }}" class="row mt-5" method="POST">
+        <form id="contact-form" action="{{ site.Params.contact_form_action }}" class="row mt-5" method="POST">
           <div class="col-lg-6">
             <input type="text" class="form-control mb-4" name="name" id="name" placeholder="Name">
           </div>
@@ -21,6 +21,8 @@
             <button class="btn btn-primary">Submit</button>
           </div>
         </form>
+        <br>
+        <div id="contact-form-status"></div>
       </div>
     </div>
   </div>
