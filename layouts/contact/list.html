@@ -8,14 +8,17 @@
         <img data-src="{{.Params.Image | absURL }}" alt="{{site.Params.author}}" class="img-fluid w-100 mb-4 lazyload">
         {{ .Content }}
         <form id="contact-form" action="{{ site.Params.contact_form_action }}" class="row mt-5" method="POST">
-          <div class="col-lg-6">
-            <input type="text" class="form-control mb-4" name="name" id="name" placeholder="Name">
+          <div id="name_group" class="col-lg-6 mb-4">
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+            <small id="name-error"></small>
           </div>
-          <div class="col-lg-6">
-            <input type="email" class="form-control mb-4" name="email" id="email" placeholder="Email">
+          <div id="email_group" class="col-lg-6 mb-4">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+            <small id="email-error"></small>
           </div>
-          <div class="col-12">
-            <textarea name="message" id="message" class="form-control mb-4" placeholder="Message..."></textarea>
+          <div id="message_group" class="col-12 mb-4">
+            <textarea name="message" id="message" class="form-control" placeholder="Message..."></textarea>
+            <small id="message-error"></small>
           </div>
           <div class="col-12">
             <button class="btn btn-primary">Submit</button>

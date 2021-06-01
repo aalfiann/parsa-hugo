@@ -44,8 +44,10 @@
 {{ $script := resources.Get "js/script.js" | minify}}
 <script src="{{ $script.Permalink }}"></script>
 
+{{- if (in .Permalink "/contact/") -}}
 {{ if .Site.Params.contact_form_action }}
 <!-- Contact Form -->
+<script src="https://cdn.jsdelivr.net/npm/native-form-validation@1.0.1/dist/formvalidation.min.js"></script>
 <script>
   function writeAlert(type,msgHtml) {
     return '<div class="alert alert-'+type+' alert-dismissible fade show" role="alert">\
@@ -58,26 +60,79 @@
 
   var form = document.getElementById("contact-form");
   if(form) {
+    var FV = new FormValidation();
+    FV.rules({
+      name:{
+        required: true,
+        minLength:3,
+        maxLength:20,
+        message: 'Please input your name atleast 3 chars!',
+        errorPlace:'name-error',
+        errorAddClass: {
+          name_group:'has-danger',
+          name:'is-invalid',
+          'name-error': 'text-danger'
+        }
+      },
+      email:{
+        required: true,
+        message: 'Email is required and must use a valid format!',
+        regex: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        errorPlace:'email-error',
+        errorAddClass: {
+          email_group:'has-danger',
+          email:'is-invalid',
+          'email-error': 'text-danger'
+        }
+      },
+      message:{
+        required: true,
+        minLength: 50,
+        message: 'Please input message atleast 50 chars!',
+        errorPlace:'message-error',
+        errorAddClass: {
+          message_group:'has-danger',
+          message:'is-invalid',
+          'message-error': 'text-danger'
+        }
+      }
+    });
+
+    $(document).ready(function(){
+      $('#name').on('blur', function() {
+        FV.element(this.id).validate();
+      });
+      $('#email').on('blur', function() {
+        FV.element(this.id).validate();
+      });
+      $('#message').on('blur', function() {
+        FV.element(this.id).validate()
+      });
+    });
+
     async function handleSubmit(event) {
       event.preventDefault();
-      var status = document.getElementById("contact-form-status");
-      var data = new FormData(event.target);
-      fetch(event.target.action, {
-        method: form.method,
-        body: data,
-        headers: {
-            'Accept': 'application/json'
-        }
-      }).then(response => {
-        status.innerHTML = writeAlert('success','Thanks for your submission!');
-        form.reset()
-      }).catch(error => {
-        status.innerHTML = writeAlert('danger','Oops! Something went wrong, please try again later.');
-      });
+      if(FV.validate().isValid()) {
+        var status = document.getElementById("contact-form-status");
+        var data = new FormData(event.target);
+        fetch(event.target.action, {
+          method: form.method,
+          body: data,
+          headers: {
+              'Accept': 'application/json'
+          }
+        }).then(response => {
+          status.innerHTML = writeAlert('success','Thanks for your submission!');
+          form.reset()
+        }).catch(error => {
+          status.innerHTML = writeAlert('danger','Oops! Something went wrong, please try again later.');
+        });
+      }
     }
     form.addEventListener("submit", handleSubmit);
 }
 </script>
+{{ end }}
 {{ end }}
 
 <!-- cookie -->
