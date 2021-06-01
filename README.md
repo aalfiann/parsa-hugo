@@ -4,6 +4,7 @@
 Differences:  
 - Better SEO
 - Better Search
+- Better Font Size
 - Social Sharing
 - Ajax Contact Form
 - Using GTag
